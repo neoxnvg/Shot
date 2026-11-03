@@ -19,3 +19,27 @@ npm run preview
 ```
 
 O projeto é um protótipo de treinamento local, sem inimigos, multiplayer ou dano ao jogador. Armas e ambiente são geometrias procedurais estilizadas: não são modelos licenciados ou visuais ultrarrealistas. Áudio também é procedural, não gravação de armas reais. Qualidade de produção exige assets, animações e trabalho de iluminação e otimização adicionais.
+
+## Automatic updates on an existing Ubuntu server
+
+`.github/workflows/publish-web.yml` builds every push to `main` and publishes compiled files to `web`. GitHub Actions must be enabled and allowed to write repository contents. No SSH secret is needed: the server pulls updates using its existing Git read access. A failed build leaves the previous web version installed.
+
+On the server, with the existing clean `~/shot-web` checkout on branch `web`:
+
+```sh
+git -C ~/shot-web fetch origin main
+git -C ~/shot-web show FETCH_HEAD:scripts/install-server.sh > /tmp/shot-install.sh
+bash /tmp/shot-install.sh
+```
+
+The installer requires Python 3, Git, flock, timeout and a working user crontab. It preserves unrelated cron entries, installs helpers under `~/.local/share/shot`, and serves the game on **127.0.0.1:8001**. It checks for updates and restarts a stopped server every minute; `@reboot` starts it after boot if the system cron service is enabled. Check the installer's HTTP readiness result, then verify after closing SSH and after a server reboot. Restricted cron policies require administrator help. No Nginx configuration is modified.
+
+On your Windows computer, keep this tunnel open while playing:
+
+```sh
+ssh -N -L 8001:127.0.0.1:8001 nelson@45.79.9.248
+```
+
+Open `http://localhost:8001` on that computer. This is private access through SSH, not a public website. Pointer lock and audio work on localhost. Logs: `~/.local/share/shot/server.log` and `cron.log`. Updates refuse local checkout changes or diverging history. For private repositories the server needs noninteractive read-only Git authentication; do not store a password in scripts.
+
+To disable automatic updates and restarts, run `crontab -e` and remove only the two lines ending in `# SHOT-MANAGED`. This does not stop an already running server.

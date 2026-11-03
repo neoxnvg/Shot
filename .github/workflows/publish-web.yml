@@ -1,0 +1,35 @@
+name: Build and publish web
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: publish-web
+  cancel-in-progress: false
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - name: Publish compiled files to web branch
+        shell: bash
+        run: |
+          set -euo pipefail
+          build_dir="$(mktemp -d)"
+          cp -a dist/. "$build_dir/"
+          git fetch origin web
+          git checkout -B web origin/web
+          git rm -r --ignore-unmatch .
+          cp -a "$build_dir/." .
+          git add --all
+          if git diff --cached --quiet; then exit 0; fi
+          git -c user.name='github-actions[bot]' -c user.email='41898282+github-actions[bot]@users.noreply.github.com' commit -m 'Update compiled game'
+          git push origin HEAD:web
