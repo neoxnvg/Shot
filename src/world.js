@@ -50,5 +50,7 @@ export function createWorld(scene) {
   sign('PATIO DE FERRO',0,3.15,-55.43,9);sign('SETOR 01',-14,3.3,31.43,5);
   // Broken aggregate is instanced to keep draw calls low.
   const rubble=new T.InstancedMesh(new T.DodecahedronGeometry(1,0),concrete,160);const transform=new T.Object3D();for(let i=0;i<160;i++){transform.position.set((random()>.5?1:-1)*(27+random()*2),.04,random()*82-53);transform.scale.set(.05+random()*.16,.04+random()*.07,.08+random()*.18);transform.rotation.set(random()*3,random()*3,random()*3);transform.updateMatrix();rubble.setMatrixAt(i,transform.matrix)}scene.add(rubble);
+  // A low service canopy gives crouching and sliding a useful route.
+  box(4,.18,6,24,1.48,-6,steel);for(const x of [22,26])for(const z of [-9,-3])box(.12,1.4,.12,x,.7,z,steel);sign('PASSAGEM BAIXA',24,1.83,-2.85,3);
   return {colliders,solids};
 }

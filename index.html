@@ -1,1 +1,42 @@
-<!doctype html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>SHOT — Pátio de Ferro</title></head><body><canvas id="game"></canvas><div id="vignette"></div><header><b>SHOT<span> / PÁTIO DE FERRO</span></b><span id="status">MAPA 01 / 05 · MATA-MATA · BUILD 02</span></header><main id="menu"><div class="eyebrow">EXPERIÊNCIA FPS / 01</div><h1 id="menu-title">PÁTIO DE<br>FERRO.</h1><p id="intro">Você contra cinco bots. Todos contra todos.<br>15 eliminações ou 5 minutos. Reaparecimento automático.</p><div id="maps" aria-label="Mapas"></div><button id="play">INICIAR OPERAÇÃO <span>↗</span></button><div class="controls">W A S D · MOVIMENTO &nbsp; MOUSE · MIRA<br>SHIFT · CORRER &nbsp; ESPAÇO · PULAR<br>CLIQUE · ATIRAR &nbsp; DIREITO · MIRAR<br>R · RECARREGAR &nbsp; 1 / 2 · ARMAS &nbsp; ESC · PAUSA</div><small>Áudio sintetizado • Use fones de ouvido • Teclado e mouse</small></main><div id="crosshair"><i></i><i></i><i></i><i></i></div><div id="damage"></div><aside id="match"><label>MATA-MATA · LIMITE 15</label><strong id="timer">5:00</strong><div id="board"></div></aside><div id="feed"></div><div id="hit">×</div><div id="notice"></div><footer><div><label>CONDIÇÃO</label><strong id="health">100 <small>HP</small></strong><div class="bar"><i id="healthbar"></i></div></div><div class="score"><label>ELIMINAÇÕES / MORTES</label><strong><span id="score">00</span><small> / <span id="deaths">0</span></small></strong></div><div class="ammo"><label id="weapon">M4A1 / 5.56 × 45</label><strong><span id="ammo">30</span><small> / <span id="reserve">120</span></small></strong><label id="mode">AUTOMÁTICO</label></div></footer><script type="module" src="/src/main.js"></script></body></html>
+<!doctype html>
+<html lang="pt-BR">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>SHOT — Cartel × DAE</title></head>
+<body>
+  <canvas id="game"></canvas><div id="vignette"></div>
+  <header><b>SHOT<span> / PÁTIO DE FERRO</span></b><span id="status">MAPA 01 / 05 · CARTEL × DAE · BUILD 03</span></header>
+  <main id="menu">
+    <section class="briefing">
+      <div class="eyebrow">OPERAÇÃO PÁTIO DE FERRO / 01</div>
+      <h1 id="menu-title">PÁTIO DE<br>FERRO.</h1>
+      <p id="intro"></p>
+      <div class="team-choices" role="group" aria-label="Escolha seu time">
+        <button data-team="cartel" aria-pressed="false"><span>01 / CARTEL</span><b>Cartel de Medellín</b><small>UNIFORME AREIA · AK-47 INICIAL</small></button>
+        <button data-team="dae" class="selected" aria-pressed="true"><span>02 / DAE</span><b>DAE</b><small>UNIFORME ESCURO · M4A1 INICIAL</small></button>
+      </div>
+      <div id="maps" aria-label="Mapas"></div>
+      <button id="play">INICIAR OPERAÇÃO <span>↗</span></button>
+      <div id="menu-error" role="alert"></div>
+      <div class="controls">W A S D · MOVER &nbsp; MOUSE · OLHAR &nbsp; SHIFT · CORRER<br>C / CTRL · AGACHAR &nbsp; CORRER + C / CTRL · DESLIZAR<br>ESPAÇO · PULAR &nbsp; CLIQUE · ATIRAR &nbsp; DIREITO · MIRAR<br>R · RECARREGAR &nbsp; 1 · M4 &nbsp; 2 · AK &nbsp; M · SOM &nbsp; ESC · PAUSA</div>
+      <small>Use fones de ouvido · Teclado e mouse · Sem dano entre aliados</small>
+    </section>
+    <details id="sound-panel" open>
+      <summary>PAISAGEM SONORA <span>− / +</span></summary>
+      <p>Disparos posicionais, mecanismos, passos, recarga e ecos do pátio. Vento industrial e explosões distantes compõem o ambiente.</p>
+      <label for="volume-master">VOLUME GERAL</label><div class="volume-row"><input id="volume-master" data-volume="master" type="range" min="0" max="100" value="65"><output>65%</output></div>
+      <label for="volume-weapons">ARMAS E COMBATE</label><div class="volume-row"><input id="volume-weapons" data-volume="weapons" type="range" min="0" max="100" value="80"><output>80%</output></div>
+      <label for="volume-foley">PASSOS E EQUIPAMENTO</label><div class="volume-row"><input id="volume-foley" data-volume="foley" type="range" min="0" max="100" value="55"><output>55%</output></div>
+      <label for="volume-ambience">AMBIENTE CINEMATOGRÁFICO</label><div class="volume-row"><input id="volume-ambience" data-volume="ambience" type="range" min="0" max="100" value="35"><output>35%</output></div>
+      <button id="mute">SILENCIAR</button><small>Áudio sintetizado localmente. Sem gravações de armas reais.</small>
+    </details>
+  </main>
+  <div id="crosshair"><i></i><i></i><i></i><i></i></div><div id="damage"></div>
+  <aside id="match"><label>EQUIPES · LIMITE 30</label><div id="team-score"><span class="dae">DAE <b id="dae-score">0</b></span><span>×</span><span class="cartel"><b id="cartel-score">0</b> CDM</span></div><strong id="timer">5:00</strong><div id="board"></div></aside>
+  <div id="feed"></div><div id="hit">×</div><div id="notice"></div>
+  <footer>
+    <div><label id="yourteam">DAE</label><strong id="health">100 <small>HP</small></strong><div class="bar"><i id="healthbar"></i></div><label id="posture">EM PÉ</label><div class="bar stamina"><i id="stamina"></i></div></div>
+    <div class="score"><label>ELIMINAÇÕES / MORTES</label><strong><span id="score">00</span><small> / <span id="deaths">0</span></small></strong><label id="audio-state">SOM ATIVO [M]</label></div>
+    <div class="ammo"><label id="weapon">M4A1 / 5.56 × 45</label><strong><span id="ammo">30</span><small> / <span id="reserve">120</span></small></strong><label id="mode">AUTOMÁTICO</label></div>
+  </footer>
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>

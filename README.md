@@ -1,8 +1,12 @@
 # SHOT
 
-FPS 3D para PC, feito com Three.js e Vite. Mapa 1/5: Pátio de Ferro, um cenário industrial procedural com contêineres, depósitos, torre d’água, guindaste, piso desgastado, sombras e colisões. M4A1 e M1911 estilizadas, recarga e áudio sintetizado pela Web Audio API. Não depende de serviços externos ou chaves.
+FPS 3D para PC, feito com Three.js e Vite. Mapa 1/5: Pátio de Ferro, um cenário industrial procedural com contêineres, depósitos, torre d’água, guindaste, piso desgastado, sombras e colisões. M4A1 e AK-47 procedurais detalhadas, recarga e áudio sintetizado pela Web Audio API. Não depende de serviços externos ou chaves.
 
-Mata-mata com cinco bots que navegam por obstáculos e atacam o jogador e uns aos outros. Vence quem alcançar 15 eliminações ou liderar ao fim de cinco minutos; empates usam menos mortes e então a ordem do placar. Morte causa reaparecimento em três segundos, com dois segundos de proteção e reposição de munição. Esc pausa toda a simulação. Os mapas 2–5 ainda não estão disponíveis.
+Mata-mata por equipes **Cartel de Medellín × DAE**, três contra três (jogador e cinco bots). Escolha o time no menu: DAE começa com M4A1 e Cartel com AK-47; ambas ficam disponíveis em 1/2. Os bots atacam apenas adversários. Sem dano entre aliados, com placar por equipe e identificação azul (DAE) / areia (Cartel). Vence o time com 30 eliminações ou mais pontos após cinco minutos; pontuações iguais encerram em empate. Reaparecimento em três segundos, com dois segundos de proteção e munição renovada. Esc pausa toda a simulação. Mapas 2–5 ainda não estão disponíveis.
+
+Agachamento em C/Ctrl, corrida em Shift+W e deslize ao apertar C/Ctrl durante a corrida. O deslize tem desaceleração, custo de fôlego, intervalo entre usos e colisão; não é possível levantar sob um teto baixo. O mapa tem uma passagem de serviço baixa para usar essas mecânicas.
+
+AK e M4 têm silhuetas, carregadores, coronhas, mecanismos e miras procedurais distintos. Áudio espacial de combate, passos por distância, recarga em camadas e ambiente industrial com controles de mixagem no menu. Consulte [o projeto de som](docs/audio-design.md).
 
 ## Executar
 
@@ -13,7 +17,7 @@ npm ci
 npm run dev
 ```
 
-Clique em **Iniciar operação** para ativar áudio e capturar o mouse. WASD move, mouse mira, botão esquerdo atira, botão direito aproxima a mira, Shift corre, Espaço pula, R recarrega, 1/2 troca de arma e Esc pausa.
+Clique em **Iniciar operação** para ativar áudio e capturar o mouse. WASD move, mouse mira, botão esquerdo atira, botão direito aproxima a mira, Shift corre, Espaço pula, R recarrega, 1/2 troca de arma, C/Ctrl agacha, Shift+W e C/Ctrl desliza, M silencia e Esc pausa.
 
 ```sh
 npm test
