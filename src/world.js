@@ -19,7 +19,7 @@ export function createWorld(scene) {
     if(type==='metal')for(let x=0;x<512;x+=32){ctx.fillStyle='#ffffff10';ctx.fillRect(x,0,3,512);ctx.fillStyle='#00000022';ctx.fillRect(x+3,0,3,512)}
     const t=new T.CanvasTexture(c);t.colorSpace=T.SRGBColorSpace;t.wrapS=t.wrapT=T.RepeatWrapping;t.anisotropy=4;return t;
   }
-  const material=(color,type='concrete',options={})=>{const map=surface(color,type);return new T.MeshStandardMaterial({map,bumpMap:map,bumpScale:type==='metal'?.025:.075,roughness:.87,...options})};
+  const material=(color,type='concrete',options={})=>new T.MeshStandardMaterial({map:surface(color,type),roughness:.87,...options});
   const concrete=material('#8c8980'), asphalt=material('#454944'), steel=material('#414a47','metal',{metalness:.55,roughness:.6}), rust=material('#925839','metal');
   const paint=new T.MeshStandardMaterial({color:0xc5a85b,roughness:.92});
   const colliders=[],solids=[];
