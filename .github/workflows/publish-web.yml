@@ -18,18 +18,23 @@ jobs:
           node-version: '24'
           cache: npm
       - run: npm ci
+      - run: npm test
       - run: npm run build
       - name: Publish compiled files to web branch
         shell: bash
         run: |
           set -euo pipefail
-          build_dir="$(mktemp -d)"
-          cp -a dist/. "$build_dir/"
-          git fetch origin web
-          git checkout -B web origin/web
-          git rm -r --ignore-unmatch .
-          cp -a "$build_dir/." .
-          git add --all
-          if git diff --cached --quiet; then exit 0; fi
-          git -c user.name='github-actions[bot]' -c user.email='41898282+github-actions[bot]@users.noreply.github.com' commit -m 'Update compiled game'
-          git push origin HEAD:web
+          git fetch origin refs/heads/web:refs/remotes/origin/web
+          export GIT_DIR="$PWD/.git"
+          export GIT_WORK_TREE="$PWD/dist"
+          export GIT_INDEX_FILE="$RUNNER_TEMP/shot-web-index"
+          cd dist
+          git read-tree --empty
+          git add --force --all .
+          tree="$(git write-tree)"
+          parent="$(git rev-parse refs/remotes/origin/web)"
+          if [ "$tree" = "$(git rev-parse "$parent^{tree}")" ]; then exit 0; fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          commit="$(git commit-tree "$tree" -p "$parent" -m 'Update compiled game')"
+          git push origin "$commit:refs/heads/web"
